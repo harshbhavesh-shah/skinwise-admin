@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
       setLoading(null);
       return;
     }
-    router.push("/orders");
+    router.push("/active");
     router.refresh();
   };
 

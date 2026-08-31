@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { clientAuth } from "@/lib/firebase-client";
 
-export default function AdminLogoutButton() {
+export default function AdminLogoutButton({
+  className = "cursor-pointer rounded-full border border-line bg-white px-4 py-2 text-[13px] font-medium hover:bg-bg-2",
+}: {
+  className?: string;
+}) {
   const router = useRouter();
 
   return (
@@ -14,7 +18,7 @@ export default function AdminLogoutButton() {
         router.push("/login");
         router.refresh();
       }}
-      className="cursor-pointer rounded-full border border-line bg-white px-4 py-2 text-[13px] font-medium hover:bg-bg-2"
+      className={className}
     >
       Log out
     </button>

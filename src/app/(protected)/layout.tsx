@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/admin-auth";
-import AdminNav from "@/components/AdminNav";
+import AdminSidebar from "@/components/AdminSidebar";
 
 export default async function ProtectedLayout({
   children,
@@ -13,9 +13,9 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <div>
-      <AdminNav email={user.email} />
-      {children}
+    <div className="flex min-h-screen">
+      <AdminSidebar email={user.email} />
+      <main className="min-w-0 flex-1">{children}</main>
     </div>
   );
 }

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { listOrders } from "@/lib/orders";
 import { ORDER_STATUSES, type Order, type OrderStatus } from "@/lib/types";
-import { formatDateTime, formatPrice } from "@/lib/format";
-import StatusBadge from "@/components/StatusBadge";
+import OrderCard from "@/components/OrderCard";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +23,7 @@ function buildQuery(params: SearchParams, overrides: Partial<SearchParams>) {
   return qs ? `/orders?${qs}` : "/orders";
 }
 
-export default async function AdminOrdersPage({
+export default async function OrderHistoryPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>;
@@ -56,7 +55,7 @@ export default async function AdminOrdersPage({
   if (loadError) {
     return (
       <div className="mx-auto max-w-6xl px-8 py-14">
-        <h1 className="mb-8 text-[28px] font-medium">Orders</h1>
+        <h1 className="mb-8 text-[28px] font-medium">Order History</h1>
         <p className="rounded-2xl border border-line bg-red-50 p-8 text-center text-red-700">
           {loadError}
         </p>
@@ -67,7 +66,7 @@ export default async function AdminOrdersPage({
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
       <div className="mb-8">
-        <h1 className="text-[28px] font-medium">Orders</h1>
+        <h1 className="text-[28px] font-medium">Order History</h1>
         <p className="text-sm text-ink-soft">
           {orders.length} order{orders.length === 1 ? "" : "s"} shown
         </p>
@@ -138,47 +137,7 @@ export default async function AdminOrdersPage({
         <>
           <div className="flex flex-col gap-4">
             {orders.map((order) => (
-              <Link
-                key={order.id}
-                href={`/orders/${order.id}`}
-                className="block rounded-2xl border border-line bg-white p-6 transition-colors hover:border-accent"
-              >
-                <div className="mb-4 flex flex-wrap items-start justify-between gap-3 border-b border-line pb-4">
-                  <div>
-                    <div className="text-[15px] font-medium">
-                      {order.customer.firstName} {order.customer.lastName}
-                    </div>
-                    <div className="text-[13px] text-ink-soft">
-                      {order.customer.email} &middot; {order.customer.phone}
-                    </div>
-                    <div className="mt-1 text-[13px] text-ink-soft">
-                      {order.customer.address}, {order.customer.city}, {order.customer.state}{" "}
-                      {order.customer.pincode}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[15px] font-semibold">{formatPrice(order.total)}</div>
-                    <div className="text-[12.5px] text-ink-soft">{formatDateTime(order.createdAt)}</div>
-                    <StatusBadge status={order.status} className="mt-1" />
-                  </div>
-                </div>
-
-                <div className="mb-3 flex flex-col gap-1.5">
-                  {order.items.map((item) => (
-                    <div key={item.slug} className="flex justify-between text-[13.5px]">
-                      <span className="text-ink-soft">
-                        {item.brand} {item.name} &times; {item.qty}
-                      </span>
-                      <span>{formatPrice(item.price * item.qty)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-x-6 gap-y-1 text-[11.5px] text-ink-soft">
-                  <span>Payment ID: {order.razorpayPaymentId}</span>
-                  <span>Order ID: {order.razorpayOrderId}</span>
-                </div>
-              </Link>
+              <OrderCard key={order.id} order={order} />
             ))}
           </div>
 

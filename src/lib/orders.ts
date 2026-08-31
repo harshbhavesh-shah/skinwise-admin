@@ -44,6 +44,7 @@ const SEARCH_WINDOW = 300;
 
 export type ListOrdersOptions = {
   status?: OrderStatus;
+  excludeStatuses?: OrderStatus[];
   q?: string;
   from?: string; // "YYYY-MM-DD"
   to?: string; // "YYYY-MM-DD"
@@ -65,7 +66,7 @@ export async function listOrders(
     query = query.where("createdAt", "<=", Timestamp.fromDate(new Date(`${opts.to}T23:59:59.999Z`)));
   }
 
-  const needsInMemoryFilter = Boolean(opts.status || opts.q);
+  const needsInMemoryFilter = Boolean(opts.status || opts.q || opts.excludeStatuses?.length);
 
   if (!needsInMemoryFilter) {
     if (opts.cursor) {
@@ -83,6 +84,9 @@ export async function listOrders(
 
   if (opts.status) {
     matches = matches.filter((o) => o.status === opts.status);
+  }
+  if (opts.excludeStatuses?.length) {
+    matches = matches.filter((o) => !opts.excludeStatuses!.includes(o.status));
   }
   if (opts.q) {
     const q = opts.q.trim().toLowerCase();
