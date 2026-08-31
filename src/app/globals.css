@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f7f2;
+  --bg-2: #eceee4;
+  --ink: #1e2420;
+  --ink-soft: #5f6b62;
+  --line: #dde1d6;
+  --white: #fdfdfa;
+  --accent: #3f6d5c;
+  --accent-soft: #cfe0d3;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-white: var(--white);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
