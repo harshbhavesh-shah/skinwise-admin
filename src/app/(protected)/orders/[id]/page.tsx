@@ -69,6 +69,18 @@ export default async function AdminOrderDetailPage({
                 <span>Total</span>
                 <span>{formatPrice(order.total)}</span>
               </div>
+              {Boolean(order.pointsRedeemed) && (
+                <div className="flex justify-between text-accent">
+                  <span>Points redeemed</span>
+                  <span>{order.pointsRedeemed} pts</span>
+                </div>
+              )}
+              {Boolean(order.pointsEarned) && (
+                <div className="flex justify-between text-accent">
+                  <span>Points earned</span>
+                  <span>+{order.pointsEarned} pts</span>
+                </div>
+              )}
             </div>
           </section>
 
