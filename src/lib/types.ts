@@ -65,3 +65,18 @@ export type Order = {
   total: number;
   items: OrderItem[];
 };
+
+export type InventoryItem = {
+  slug: string;
+  brand: string;
+  name: string;
+  sku: string;
+  // null = not being stock-tracked yet — the storefront treats this as
+  // always available. Only a real number enforces stock/checkout limits.
+  quantity: number | null;
+  discountPercent: number;
+  // "YYYY-MM-DD", purely an internal restocking reminder — never shown to
+  // customers on the storefront.
+  nextOrderDate: string | null;
+  updatedAt: string;
+};
